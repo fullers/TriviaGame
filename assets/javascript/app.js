@@ -7,6 +7,7 @@ var submt = true;
 var picked;
 var score = 0;
 var count = 28;
+var delay = 5;
 
 // Objects for questions
 
@@ -98,7 +99,9 @@ var quiz = [
      }
 
      function processQuestion(choice) {
-         
+
+            console.log(" reached processQuestion")
+            
             currentquestion++;          
    
              if (currentquestion == quiz.length) {
@@ -131,27 +134,41 @@ var quiz = [
                  'font-weight': 800,
                  'background-color': '#c1c1c1'
              });
+        // countdown1 = setInterval( function() { 
+             
+            // if (delay === 0) {
+            //     clearInterval(countdown1);
+            //     processQuestion(choice); 
+            //     //alert("Times Up");
+            // }
+            // delay--;
+            //console.log("Choice: " + choice);
+
+             
 
              if (quiz[currentquestion]['choices'][choice] == quiz[currentquestion]['correct']) {
-             $('.choice').eq(choice).css({
-                 'background-color': '#50D943'
-             });
-            $('#explanation').html('<strong>Correct!</strong> ' + htmlEncode(quiz[currentquestion]['explanation']));
+             // $('.choice').eq(choice).css({
+             //     'background-color': '#50D943'
+             // });
+            // explanation = $('#explanation').html('<strong>Correct!</strong> ' + htmlEncode(quiz[currentquestion]['explanation']));
+            // $('#frame').html(explanation);
             score++;
              $(this).off('click');
+        
            processQuestion(choice);
-          
-         } else if (quiz[currentquestion]['choices'][choice] !== quiz[currentquestion]['correct']){
-             $('.choice').eq(choice).css({
-                 'background-color': '#D92623'
-             });
-             $('#explanation').html('<strong>Incorrect.</strong> ' + htmlEncode(quiz[currentquestion]['explanation']));
             
+         } else {
+             // $('.choice').eq(choice).css({
+             //     'background-color': '#D92623'
+             // });
+            //  explanation = $('#explanation').html('<strong>Incorrect.</strong> ' + htmlEncode(quiz[currentquestion]['explanation']));
+            // $('#frame').html(explanation);
             $(this).off('click');
             processQuestion(choice);
             
          } //end else if
-                
+     // }, 1000);
+              
         }) //End on click for .choice
      } // End fucntion setupButtons
 
@@ -169,8 +186,8 @@ var quiz = [
          $(document.createElement('div')).attr("id", "incorrectAnswers").text("Inorrect Answers: " + Math.round(quiz.length - score)).insertAfter('#correctAnswers');
          $(document.createElement('div')).attr("id", "unanswered").text("Unanswered: " + Math.round(quiz.length - score)).insertAfter('#incorrectAnswers');
          $('#timearea').detach();
-         $('#timearea').html("Times Up!");
-        
+         $('#timearea').html("Times Up!").insertBefore('#question');
+        createStartOver();
      }
 
      function init() {
@@ -184,7 +201,7 @@ var quiz = [
              //add pager
              $(document.createElement('p')).addClass('pager').attr('id', 'pager').text('Question 1 of ' + quiz.length).appendTo('#frame');
              //add first question
-             $(document.createElement('h2')).addClass('question').attr('id', 'question').text(quiz[0]['question']).appendTo('#frame');
+             $(document.createElement('h2')).addClass('question').attr('id', 'question').text(quiz[currentquestion]['question']).appendTo('#frame');
              //add image if present
              // if (quiz[currentquestion].hasOwnProperty('image') && quiz[currentquestion]['image'] != "") {
              //     $(document.createElement('img')).addClass('question-image').attr('id', 'question-image').attr('src', quiz[currentquestion]['image']).attr('alt', htmlEncode(quiz[currentquestion]['question'])).appendTo('#frame');
@@ -204,10 +221,16 @@ var quiz = [
 
 function createStart() {
 
-	$('#start').html('<button id="startbtn" type="submit">Start</button>').addClass("btn btn-primary");
-
+	//$('#start').html('<button id="startbtn" type="submit">Start</button>').addClass("btn btn-success");
+    var btn = $('<button>Start</button>').attr({type: "submit", id: "startbtn", value: "Start"}).addClass("btn btn-primary");
+    $('#start').html(btn);
 }
+function createStartOver() {
 
+    //$('#start').html('<button id="startbtn" type="submit">Start</button>').addClass("btn btn-success");
+    var btn = $('<button>Start Over</button>').attr({type: "submit", id: "startovr", value: "Start Over"}).addClass("btn btn-primary");
+    $('#choice-block').append(btn);
+}
 function setTimer() {
 
 	countdown = setInterval( function() { 
@@ -217,30 +240,40 @@ function setTimer() {
 	if (count == 0) {
 		$('#timearea').html("Times Up!");
 		clearInterval(countdown);
-        unanswered++;
-        endQuiz();
+        unanswered++;        
 	}
 	count--;
 
 }, 1000);
 }
 
+function answerTimer() {
+
+countdown1 = setInterval( function() { 
+     
+    if (delay === 0) {
+        clearInterval(countdown1);
+        //processQuestion(choice); 
+        alert("Times Up");
+    }
+    delay--;
+    console.log("Choice: " + choice);
+}, 1000);
+
+} // End of Answer Timer
+
 createStart();
 
 $('#startbtn').on('click', function() {
 
-	// $('#start').detach();
-	// setTimer();
 	init();
 
 });
 
-// $('#restartbtn').on('click', function() {
+$('#startovr').on('click', function() {
 
-//     // $('#start').detach();
-//     // setTimer();
-//     init();
+   alert("You Clicked Me!");
 
-// });
+});
 
 }); //End document ready function
