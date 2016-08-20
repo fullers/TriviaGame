@@ -100,7 +100,7 @@ var quiz = [
 
      function processQuestion(choice) {
 
-            console.log(" reached processQuestion")
+            //console.log("reached processQuestion");
             
             currentquestion++;          
    
@@ -187,7 +187,14 @@ var quiz = [
          $(document.createElement('div')).attr("id", "unanswered").text("Unanswered: " + Math.round(quiz.length - score)).insertAfter('#incorrectAnswers');
          $('#timearea').detach();
          $('#timearea').html("Times Up!").insertBefore('#question');
-        createStartOver();
+         createStartOver();
+
+         $('#startovr').on('click', function() {
+
+           $('#frame').empty();
+           createStart();
+
+         });
      }
 
      function init() {
@@ -270,10 +277,6 @@ $('#startbtn').on('click', function() {
 
 });
 
-$('#startovr').on('click', function() {
 
-   alert("You Clicked Me!");
-
-});
 
 }); //End document ready function
