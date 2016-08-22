@@ -126,7 +126,7 @@ var quiz = [
              });
          })
          $('.choice').on('click', function () {
-             // alert("");
+            
              choice = $(this).attr('data-index');
              $('.choice').removeAttr('style').off('mouseout mouseover');
              $(this).css({
@@ -134,28 +134,19 @@ var quiz = [
                  'font-weight': 800,
                  'background-color': '#c1c1c1'
              });
-        // countdown1 = setInterval( function() { 
-             
-            // if (delay === 0) {
-            //     clearInterval(countdown1);
-            //     processQuestion(choice); 
-            //     //alert("Times Up");
-            // }
-            // delay--;
-            //console.log("Choice: " + choice);
-
-             
-
-             if (quiz[currentquestion]['choices'][choice] == quiz[currentquestion]['correct']) {
+                
+        if (quiz[currentquestion]['choices'][choice] == quiz[currentquestion]['correct']) {
              // $('.choice').eq(choice).css({
              //     'background-color': '#50D943'
              // });
+            
             // explanation = $('#explanation').html('<strong>Correct!</strong> ' + htmlEncode(quiz[currentquestion]['explanation']));
             // $('#frame').html(explanation);
+
             score++;
              $(this).off('click');
-        
-           processQuestion(choice);
+             processQuestion(choice); 
+            
             
          } else {
              // $('.choice').eq(choice).css({
@@ -167,10 +158,38 @@ var quiz = [
             processQuestion(choice);
             
          } //end else if
-     // }, 1000);
-              
         }) //End on click for .choice
      } // End fucntion setupButtons
+    
+
+     function showAnswers(currentquestion) {
+
+        if (quiz[currentquestion]['choices'][choice] == quiz[currentquestion]['correct']) {
+             // $('.choice').eq(choice).css({
+             //     'background-color': '#50D943'
+             // });
+            
+            explanation = $('#explanation').html('<strong>Correct!</strong> ' + htmlEncode(quiz[currentquestion]['explanation']));
+            $('#frame').html(explanation);
+
+            score++;
+             //$(this).off('click');
+             //processQuestion(choice); 
+            
+            
+         } else {
+             // $('.choice').eq(choice).css({
+             //     'background-color': '#D92623'
+             // });
+            //  explanation = $('#explanation').html('<strong>Incorrect.</strong> ' + htmlEncode(quiz[currentquestion]['explanation']));
+            // $('#frame').html(explanation);
+            // $(this).off('click');
+            // processQuestion(choice);
+            
+         } //end else if
+
+
+     }
 
      function endQuiz() {
          $('#explanation').empty();
@@ -191,8 +210,8 @@ var quiz = [
 
          $('#startovr').on('click', function() {
 
-           $('#frame').empty();
-           createStart();
+           //$('#frame').empty();
+         window.location.reload(false);
 
          });
      }
@@ -260,8 +279,8 @@ countdown1 = setInterval( function() {
      
     if (delay === 0) {
         clearInterval(countdown1);
-        //processQuestion(choice); 
-        alert("Times Up");
+        processQuestion(choice); 
+        //alert("Times Up");
     }
     delay--;
     console.log("Choice: " + choice);
